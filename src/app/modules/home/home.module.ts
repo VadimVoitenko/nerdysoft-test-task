@@ -4,23 +4,23 @@ import { HomeComponent } from './pages/home/home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PlayComponent } from './pages/play/play.component';
 import { FinishComponent } from './pages/finish/finish.component';
+import { QuizService } from './services/quiz.service';
+import { MatButtonModule } from '@angular/material/button';
 
 const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: 'play/:quizId', component: PlayComponent },
+  { path: 'finish/:quizId', component: FinishComponent },
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
   },
-  {
-    path: 'home',
-    component: HomeComponent,
-  },
-  { path: 'play', component: PlayComponent },
-  { path: 'finish', component: FinishComponent },
 ];
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, RouterModule.forChild(routes), HomeComponent],
+  imports: [CommonModule, RouterModule.forChild(routes), MatButtonModule],
+  providers: [QuizService],
 })
 export class HomeModule {}

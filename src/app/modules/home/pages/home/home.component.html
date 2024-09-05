@@ -1,1 +1,13 @@
-<p>home works!</p>
+<div class="home-container">
+  <h1>Qizzes</h1>
+  <button (click)="onLuckyClick()">I'm lucky</button>
+
+  @for (quiz of quizzes; track $index) {
+  <div class="quiz-item">
+    <h2>{{ quiz.name }}</h2>
+    <p>{{ quiz.questions.length }} questions</p>
+    <!-- <button [routerLink]="'/play/' + quiz.id">Play</button> -->
+    <button (click)="onQuizSelect(quiz.id)">Play</button>
+  </div>
+  }
+</div>
