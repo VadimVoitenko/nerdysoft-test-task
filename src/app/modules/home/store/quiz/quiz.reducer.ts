@@ -1,17 +1,30 @@
-import { IQuizState } from '../../interfaces/IQuizState';
 import { createReducer, on } from '@ngrx/store';
-import { initialQuizState } from './quiz.state';
-import { loadQuizzesSuccess, loadQuizzesFailure } from './quiz.actions';
+import * as QuizActions from './quiz.actions';
+import { IQuiz } from './quiz.model';
+
+export interface QuizState {
+  quizzes: IQuiz[];
+  loading: boolean;
+  error: any;
+}
+
+export const initialState: QuizState = {
+  quizzes: [],
+  loading: false,
+  error: null,
+};
 
 export const quizReducer = createReducer(
-  initialQuizState,
-  on(loadQuizzesSuccess, (state, { quizzes }) => ({
+  initialState,
+  on(QuizActions.loadQuizzes, (state) => ({ ...state, loading: true })),
+  on(QuizActions.loadQuizzesSuccess, (state, { quizzes }) => ({
     ...state,
-    quizzes: quizzes,
-    error: null,
+    quizzes,
+    loading: false,
   })),
-  on(loadQuizzesFailure, (state, { error }) => ({
+  on(QuizActions.loadQuizzesFailure, (state, { error }) => ({
     ...state,
-    error: error,
+    error,
+    loading: false,
   }))
 );

@@ -1,13 +1,22 @@
-<div class="home-container">
-  <h1>Qizzes</h1>
+<div class="container">
+  <div *ngIf="loading$ | async">Loading...</div>
+  <div *ngIf="error$ | async as error">{{ error }}</div>
+  <div *ngIf="(quizzes$ | async)?.length === 0">No quizzes available.</div>
+
+  <h1>Quizzes</h1>
   <button (click)="onLuckyClick()">I'm lucky</button>
 
-  @for (quiz of quizzes; track $index) {
-  <div class="quiz-item">
-    <h2>{{ quiz.name }}</h2>
-    <p>{{ quiz.questions.length }} questions</p>
-    <!-- <button [routerLink]="'/play/' + quiz.id">Play</button> -->
-    <button (click)="onQuizSelect(quiz.id)">Play</button>
+  <div *ngIf="quizzes$ | async as quizzes">
+    <ul class="list">
+      <li
+        *ngFor="let quiz of quizzes"
+        (click)="selectQuiz(quiz.id)"
+        class="list__item"
+      >
+        <h3>{{ quiz.name }}</h3>
+        <p>Questions: {{ quiz.questions.length }}</p>
+        <button>Play Quiz</button>
+      </li>
+    </ul>
   </div>
-  }
 </div>

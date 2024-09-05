@@ -2,8 +2,7 @@ import { IApiQuestion } from './../interfaces/IAPIQuestion';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { IQuestion } from '../interfaces/IQuestion';
-import { IQuiz } from '../interfaces/IQuiz';
+import { IQuiz } from '../store/quiz/quiz.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,32 +12,25 @@ export class QuizService {
 
   constructor(private http: HttpClient) {}
 
-  getQuestions(): Observable<IQuestion[]> {
-    return this.http.get<{ results: IApiQuestion[] }>(this.apiUrl).pipe(
-      map((response) =>
-        response.results.map((q) => ({
-          question: q.question,
-          options: [...q.incorrect_answers, q.correct_answer].sort(
-            () => 0.5 - Math.random()
-          ),
-          correctAnswer: q.correct_answer,
-        }))
-      )
+  getQuizzes(): Observable<IQuiz[]> {
+    return this.http.get<any>(this.apiUrl).pipe(
+      map((response) => {
+        const quizzes = [];
+        for (let i = 0; i < 10; i++) {
+          const questions = response.results
+            .slice(i * 5, i * 5 + 5)
+            .map((item: any) => ({
+              id: item.question,
+              text: item.question,
+              answers: [...item.incorrect_answers, item.correct_answer].sort(
+                () => Math.random() - 0.5
+              ),
+              correctAnswer: item.correct_answer,
+            }));
+          quizzes.push({ id: i + 1, name: `Quiz ${i + 1}`, questions });
+        }
+        return quizzes;
+      })
     );
-  }
-
-  generateQuizzes(questions: IQuestion[]): IQuiz[] {
-    const quizzes: IQuiz[] = [];
-    const quizSize = 5;
-
-    for (let i = 0; i < 10; i++) {
-      const quizQuestions = questions.slice(i * quizSize, (i + 1) * quizSize);
-      quizzes.push({
-        id: i + 1,
-        name: `Quiz ${i + 1}`,
-        questions: quizQuestions,
-      });
-    }
-    return quizzes;
   }
 }

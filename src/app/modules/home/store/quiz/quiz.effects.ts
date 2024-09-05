@@ -1,32 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { QuizService } from '../../services/quiz.service';
-import {
-  loadQuizzes,
-  loadQuizzesSuccess,
-  loadQuizzesFailure,
-} from './quiz.actions';
+import * as QuizActions from './quiz.actions';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { QuizService } from '../../services/quiz.service';
 
 @Injectable()
 export class QuizEffects {
+  constructor(private actions$: Actions, private quizService: QuizService) {}
+
   loadQuizzes$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadQuizzes),
+      ofType(QuizActions.loadQuizzes),
       mergeMap(() =>
-        this.quizService.getQuestions().pipe(
-          map((questions) => {
-            const quizzes = this.quizService.generateQuizzes(questions);
-            return loadQuizzesSuccess({ quizzes });
-          }),
-          catchError((error) =>
-            of(loadQuizzesFailure({ error: error.message }))
-          )
+        this.quizService.getQuizzes().pipe(
+          map((quizzes) => QuizActions.loadQuizzesSuccess({ quizzes })),
+          catchError((error) => of(QuizActions.loadQuizzesFailure({ error })))
         )
       )
     )
   );
-
-  constructor(private actions$: Actions, private quizService: QuizService) {}
 }

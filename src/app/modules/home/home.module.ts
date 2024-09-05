@@ -9,8 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'play/:quizId', component: PlayComponent },
-  { path: 'finish/:quizId', component: FinishComponent },
+  { path: 'play/:id', component: PlayComponent },
+  { path: 'finish/:id', component: FinishComponent },
   {
     path: '',
     redirectTo: 'home',

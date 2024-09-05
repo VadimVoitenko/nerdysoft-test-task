@@ -1,4 +1,4 @@
-import { IQuiz } from './IQuiz';
+import { IQuiz } from '../store/quiz/quiz.model';
 
 export interface IQuizState {
   quizzes: IQuiz[];

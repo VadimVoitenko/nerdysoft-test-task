@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideZoneChangeDetection,
+  isDevMode,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -8,6 +12,7 @@ import { provideState, provideStore } from '@ngrx/store';
 import { quizReducer } from './modules/home/store/quiz/quiz.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { QuizEffects } from './modules/home/store/quiz/quiz.effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,8 +20,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(),
-    provideStore({ quizState: quizReducer }),
-    provideState({ name: 'quizState', reducer: quizReducer }),
-    provideEffects([QuizEffects])
+    provideStore({ quiz: quizReducer }),
+    // provideState({ name: 'quizState', reducer: quizReducer }),
+    provideEffects([QuizEffects]),
+    provideStoreDevtools({ maxAge: 25 }),
   ],
 };
