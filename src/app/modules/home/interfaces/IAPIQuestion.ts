@@ -1,9 +1,6 @@
-export interface IApiQuestion {
-  id: string;
-  category: string;
-  type: string;
-  difficulty: string;
-  text: string;
-  correct_answer: string;
-  incorrect_answers: string[];
-}
+// export interface IApiQuestion {
+//   id: number;
+//   text: string;
+//   correct_answer: string;
+//   incorrect_answers: string[];
+// }

@@ -1,7 +1,8 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 import { QuizState } from './quiz.reducer';
+import { AppState } from './quiz.state';
 
-export const selectQuizState = createFeatureSelector<QuizState>('quiz');
+export const selectQuizState = (state: AppState) => state.quiz;
 
 export const selectQuizzes = createSelector(
   selectQuizState,
@@ -15,10 +16,20 @@ export const selectQuizById = (quizId: number) =>
 
 export const selectLoading = createSelector(
   selectQuizState,
-  (state: QuizState) => state.loading
+  (state: QuizState) => state.isLoading
 );
 
 export const selectError = createSelector(
   selectQuizState,
   (state: QuizState) => state.error
 );
+
+export const selectSelectedQuiz = createSelector(
+  selectQuizState,
+  (state: QuizState) => state.selectedQuiz
+);
+
+// export const selectQuizResults = createSelector(
+//   selectQuizState,
+//   (state: QuizState) => state.quizResult
+// );

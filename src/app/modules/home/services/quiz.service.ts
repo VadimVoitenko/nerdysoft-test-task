@@ -1,4 +1,3 @@
-import { IApiQuestion } from './../interfaces/IAPIQuestion';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -19,8 +18,8 @@ export class QuizService {
         for (let i = 0; i < 10; i++) {
           const questions = response.results
             .slice(i * 5, i * 5 + 5)
-            .map((item: any) => ({
-              id: item.question,
+            .map((item: any, index: number) => ({
+              id: `${index + 1}`,
               text: item.question,
               answers: [...item.incorrect_answers, item.correct_answer].sort(
                 () => Math.random() - 0.5

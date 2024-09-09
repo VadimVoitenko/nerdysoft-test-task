@@ -10,3 +10,10 @@ export interface IQuiz {
   name: string;
   questions: IQuestion[];
 }
+
+export interface IQuizResult {
+  quizId: number;
+  quiz: IQuiz;
+  answers: string[];
+  timeTaken: number;
+}

@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-// import { IQuiz } from '../../interfaces/IQuiz';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   selectError,
@@ -9,22 +8,27 @@ import {
   selectQuizzes,
 } from '../../store/quiz/quiz.selectors';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { loadQuizzes } from '../../store/quiz/quiz.actions';
 import { IQuiz } from '../../store/quiz/quiz.model';
+import { AppState } from '../../store/quiz/quiz.state';
+import * as QuizActions from '../../store/quiz/quiz.actions';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, AsyncPipe, NgIf, NgFor],
+  imports: [RouterLink, AsyncPipe, NgIf, NgFor, MatButton],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  quizzes$!: Observable<IQuiz[]>;
+  quizzes$: Observable<IQuiz[]> = this.store.select(
+    (state) => state.quiz.quizzes
+  );
   loading$!: Observable<boolean>;
   error$?: Observable<string | null>;
+  selectedQuiz: IQuiz | undefined = undefined;
 
-  constructor(private store: Store, private router: Router) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit(): void {
     this.quizzes$ = this.store.select(selectQuizzes);
@@ -32,8 +36,8 @@ export class HomeComponent implements OnInit {
     this.error$ = this.store.select(selectError);
 
     this.quizzes$.subscribe((quizzes) => {
-      if (quizzes.length === 0) {
-        this.store.dispatch(loadQuizzes());
+      if (!quizzes || quizzes.length === 0) {
+        this.store.dispatch(QuizActions.loadQuizzes());
       }
     });
   }
@@ -43,14 +47,15 @@ export class HomeComponent implements OnInit {
       if (quizzes.length > 0) {
         const randomIndex = Math.floor(Math.random() * quizzes.length);
         const randomQuiz = quizzes[randomIndex];
-        this.selectQuiz(randomQuiz.id);
+        this.onSelectQuiz(randomQuiz.id);
       } else {
         console.error('No quizzes available to select');
       }
     });
   }
 
-  selectQuiz(quizId: number) {
+  onSelectQuiz(quizId: number) {
+    this.store.dispatch(QuizActions.selectQuizById({ quizId }));
     this.router.navigate(['quiz/play', quizId]);
   }
 }

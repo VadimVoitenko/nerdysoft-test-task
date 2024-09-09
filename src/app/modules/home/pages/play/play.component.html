@@ -1,1 +1,40 @@
-<p>play works!</p>
+<section class="play">
+  <div class="container">
+    <button mat-button (click)="onCancel()">Back To Home</button>
+    <div *ngIf="selectedQuiz$ | async as quiz">
+      <div class="title">
+        <h2>{{ quiz.name }}</h2>
+        <h2>
+          Question {{ currentQuestionIndex + 1 }} /
+          {{ quiz.questions.length }}
+        </h2>
+      </div>
+
+      <div class="question">
+        <h3>
+          {{ quiz.questions[currentQuestionIndex].text }}
+        </h3>
+        <ul>
+          <li
+            *ngFor="let answer of quiz.questions[currentQuestionIndex].answers"
+          >
+            <label>
+              <input
+                type="radio"
+                name="answer"
+                [value]="answer"
+                (change)="selectAnswer(answer)"
+                [checked]="selectedAnswer === answer"
+              />
+              {{ answer }}
+            </label>
+          </li>
+        </ul>
+
+        <button mat-button [disabled]="!selectAnswer" (click)="nextQuestion()">
+          Next Question
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

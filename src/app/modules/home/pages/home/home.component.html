@@ -1,22 +1,21 @@
-<div class="container">
-  <div *ngIf="loading$ | async">Loading...</div>
-  <div *ngIf="error$ | async as error">{{ error }}</div>
-  <div *ngIf="(quizzes$ | async)?.length === 0">No quizzes available.</div>
+<section class="home">
+  <div class="container">
+    <div *ngIf="loading$ | async">Loading...</div>
+    <div *ngIf="(quizzes$ | async)?.length === 0">No quizzes available.</div>
 
-  <h1>Quizzes</h1>
-  <button (click)="onLuckyClick()">I'm lucky</button>
+    <h1 class="title">Available Quizzes</h1>
 
-  <div *ngIf="quizzes$ | async as quizzes">
-    <ul class="list">
-      <li
-        *ngFor="let quiz of quizzes"
-        (click)="selectQuiz(quiz.id)"
-        class="list__item"
-      >
-        <h3>{{ quiz.name }}</h3>
-        <p>Questions: {{ quiz.questions.length }}</p>
-        <button>Play Quiz</button>
-      </li>
-    </ul>
+    <div *ngIf="quizzes$ | async as quizzes" class="quizzes">
+      <button mat-button (click)="onLuckyClick()">I'm lucky</button>
+      <ul class="list">
+        <li *ngFor="let quiz of quizzes" class="list-item">
+          <h3 class="list-item__title">{{ quiz.name }}</h3>
+          <p class="list-item__text">Questions: {{ quiz.questions.length }}</p>
+          <button mat-button (click)="onSelectQuiz(quiz.id)" class="list-item__btn">
+            Play Quiz
+          </button>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
+</section>

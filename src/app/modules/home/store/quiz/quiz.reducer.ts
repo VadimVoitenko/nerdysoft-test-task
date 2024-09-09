@@ -1,30 +1,54 @@
 import { createReducer, on } from '@ngrx/store';
 import * as QuizActions from './quiz.actions';
-import { IQuiz } from './quiz.model';
+import { IQuiz, IQuizResult } from './quiz.model';
 
 export interface QuizState {
   quizzes: IQuiz[];
-  loading: boolean;
-  error: any;
+  selectedQuiz: IQuiz | null;
+  quizResult: IQuizResult | null;
+  isLoading: boolean;
+  error: string;
 }
 
 export const initialState: QuizState = {
   quizzes: [],
-  loading: false,
-  error: null,
+  selectedQuiz: null,
+  quizResult: null,
+  isLoading: false,
+  error: '',
 };
 
-export const quizReducer = createReducer(
+export const quizReducers = createReducer(
   initialState,
-  on(QuizActions.loadQuizzes, (state) => ({ ...state, loading: true })),
+  on(QuizActions.loadQuizzes, (state) => ({ ...state, isLoading: true })),
   on(QuizActions.loadQuizzesSuccess, (state, { quizzes }) => ({
     ...state,
     quizzes,
-    loading: false,
+    isLoading: false,
   })),
   on(QuizActions.loadQuizzesFailure, (state, { error }) => ({
     ...state,
     error,
-    loading: false,
-  }))
+    isLoading: false,
+  })),
+  on(QuizActions.selectQuizById, (state, { quizId }) => ({
+    ...state,
+    selectedQuiz: state.quizzes.find((quiz) => quiz.id === quizId) || null,
+  })),
+  on(QuizActions.loadSelectedQuizFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+  on(QuizActions.submitQuizResults, (state, { answers, quizId, timeTaken }) => {
+    const quiz = state.quizzes.find((quiz) => quiz.id === quizId);
+    return {
+      ...state,
+      quizResult: {
+        quizId,
+        quiz: quiz!,
+        answers,
+        timeTaken,
+      },
+    };
+  })
 );
