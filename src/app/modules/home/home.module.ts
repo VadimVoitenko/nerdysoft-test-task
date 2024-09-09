@@ -6,11 +6,20 @@ import { PlayComponent } from './pages/play/play.component';
 import { FinishComponent } from './pages/finish/finish.component';
 import { QuizService } from './services/quiz.service';
 import { MatButtonModule } from '@angular/material/button';
+import { animation } from '@angular/animations';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'play/:id', component: PlayComponent },
-  { path: 'finish/:id', component: FinishComponent },
+  { path: 'home', component: HomeComponent, data: { animation: 'HomePage' } },
+  {
+    path: 'play/:id',
+    component: PlayComponent,
+    data: { animation: 'PlayPage' },
+  },
+  {
+    path: 'finish/:id',
+    component: FinishComponent,
+    data: { animation: 'FinishPage' },
+  },
   {
     path: '',
     redirectTo: 'home',
