@@ -26,6 +26,7 @@ export class PlayComponent implements OnInit, OnDestroy {
   totalQuestions?: number = 0;
   quizId: number | undefined = undefined;
   startTime: number | null = null;
+  nextButtonText: string = 'Next Question';
 
   constructor(private store: Store<AppState>, private router: Router) {}
 
@@ -77,9 +78,19 @@ export class PlayComponent implements OnInit, OnDestroy {
           answers: this.userAnswers,
           quizId: this.quizId!,
           timeTaken,
+          finishTime: this.formatTime(quizEndTime)!,
         })
       );
-      this.router.navigate(['/quiz/finish', this.quizId]);
+      this.finishQuiz();
     }
+  }
+
+  formatTime(timestamp: number): string {
+    const date = new Date(timestamp);
+    return date.toLocaleString();
+  }
+
+  finishQuiz(): void {
+    this.router.navigate(['/quiz/finish', this.quizId]);
   }
 }

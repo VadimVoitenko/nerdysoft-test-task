@@ -30,5 +30,5 @@ export const loadSelectedQuizFailure = createAction(
 
 export const submitQuizResults = createAction(
   '[Quiz] Submit Quiz Results',
-  props<{ answers: string[]; quizId: number; timeTaken: number }>()
+  props<{ answers: string[]; quizId: number; timeTaken: number, finishTime: string }>()
 );

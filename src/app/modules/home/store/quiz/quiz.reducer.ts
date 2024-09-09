@@ -39,16 +39,20 @@ export const quizReducers = createReducer(
     ...state,
     error,
   })),
-  on(QuizActions.submitQuizResults, (state, { answers, quizId, timeTaken }) => {
-    const quiz = state.quizzes.find((quiz) => quiz.id === quizId);
-    return {
-      ...state,
-      quizResult: {
-        quizId,
-        quiz: quiz!,
-        answers,
-        timeTaken,
-      },
-    };
-  })
+  on(
+    QuizActions.submitQuizResults,
+    (state, { answers, quizId, timeTaken, finishTime }) => {
+      const quiz = state.quizzes.find((quiz) => quiz.id === quizId);
+      return {
+        ...state,
+        quizResult: {
+          quizId,
+          quiz: quiz!,
+          answers,
+          timeTaken,
+          finishTime,
+        },
+      };
+    }
+  )
 );

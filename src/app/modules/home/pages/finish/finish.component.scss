@@ -35,13 +35,10 @@
       color: white;
       border: none;
       padding: 10px 20px;
+      margin-top: 15px;
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s ease;
-
-      &:hover {
-        background-color: #0056b3;
-      }
 
       &:hover {
         background-color: #0056b3;

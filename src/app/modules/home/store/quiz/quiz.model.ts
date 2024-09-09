@@ -16,4 +16,5 @@ export interface IQuizResult {
   quiz: IQuiz;
   answers: string[];
   timeTaken: number;
+  finishTime: string;
 }

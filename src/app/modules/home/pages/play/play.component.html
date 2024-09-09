@@ -32,7 +32,11 @@
         </ul>
 
         <button mat-button [disabled]="!selectAnswer" (click)="nextQuestion()">
-          Next Question
+          {{
+            currentQuestionIndex + 1 === quiz.questions.length
+              ? "Finish Quiz"
+              : "Next Question"
+          }}
         </button>
       </div>
     </div>

@@ -22,6 +22,7 @@ export class FinishComponent implements OnInit {
   correctAnswers: number = 0;
   totalQuestions: number = 0;
   timeTaken: number = 0;
+  finishTime!: string;
 
   constructor(private router: Router, private store: Store<AppState>) {}
 
@@ -32,6 +33,7 @@ export class FinishComponent implements OnInit {
         this.correctAnswers = this.calculateCorrectAnswers(result);
         this.score = (this.correctAnswers / this.totalQuestions) * 100;
         this.timeTaken = result.timeTaken;
+        this.finishTime = result.finishTime;
       }
     });
   }
