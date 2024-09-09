@@ -29,7 +29,7 @@ export const selectSelectedQuiz = createSelector(
   (state: QuizState) => state.selectedQuiz
 );
 
-// export const selectQuizResults = createSelector(
-//   selectQuizState,
-//   (state: QuizState) => state.quizResult
-// );
+export const selectQuizResults = createSelector(
+  selectQuizState,
+  (state: QuizState) => state.quizResult
+);
