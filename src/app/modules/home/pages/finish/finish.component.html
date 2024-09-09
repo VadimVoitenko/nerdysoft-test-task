@@ -1,10 +1,10 @@
 <section class="finish">
   <div class="container">
     <div *ngIf="quizResult$ | async as result">
-      <h2 class="title">Quiz Result for {{ result.quiz.name }}</h2>
-      <p>Total Questions: {{ totalQuestions }}</p>
-      <p>Correct Answers: {{ correctAnswers }}</p>
+      <h2 class="title">Result for {{ result.quiz.name }}</h2>
       <p>Score: {{ score }}%</p>
+      <p>Correct Answers: {{ correctAnswers }}</p>
+      <p>Total Questions: {{ totalQuestions }}</p>
       <p>Time Taken: {{ timeTaken / 1000 }} seconds</p>
       <p>Finish Time: {{ finishTime }}</p>
 

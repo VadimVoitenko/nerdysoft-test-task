@@ -7,17 +7,11 @@
 
     <div *ngIf="quizzes$ | async as quizzes" class="quizzes">
       <button mat-button (click)="onLuckyClick()">I'm lucky</button>
-      <ul class="list">
-        <li *ngFor="let quiz of quizzes" class="list-item">
-          <h3 class="list-item__title">{{ quiz.name }}</h3>
-          <p class="list-item__text">Questions: {{ quiz.questions.length }}</p>
-          <button
-            mat-button
-            (click)="onSelectQuiz(quiz.id)"
-            class="list-item__btn"
-          >
-            Play Quiz
-          </button>
+      <ul>
+        <li *ngFor="let quiz of quizzes">
+          <h3>{{ quiz.name }}</h3>
+          <p>Questions: {{ quiz.questions.length }}</p>
+          <button mat-button (click)="onSelectQuiz(quiz.id)">Play Quiz</button>
         </li>
       </ul>
     </div>

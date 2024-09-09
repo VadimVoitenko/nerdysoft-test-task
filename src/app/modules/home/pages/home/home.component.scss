@@ -1,6 +1,6 @@
 section.home {
   background-color: #dcffe0;
-  min-height: 100%;
+  min-height: 100vh;
 
   .container {
     padding: 20px;
@@ -9,6 +9,9 @@ section.home {
 
   h1 {
     font-size: 48px;
+    @media (max-width: 500px) {
+      font-size: 36px;
+    }
   }
 
   ul {
@@ -21,8 +24,12 @@ section.home {
       border-radius: 10px;
       display: inline-block;
       width: 230px;
-      // max-width: 100%;
       text-align: left;
+      @media (max-width: 700px) {
+        h3 {
+          font-size: 24px;
+        }
+      }
     }
   }
 
